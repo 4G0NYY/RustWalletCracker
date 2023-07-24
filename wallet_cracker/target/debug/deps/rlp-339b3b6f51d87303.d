@@ -1,0 +1,12 @@
+C:\Users\Lord\Documents\GitHub\EquityRust\wallet_cracker\target\debug\deps\rlp-339b3b6f51d87303.rmeta: C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\lib.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\error.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\impls.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\rlpin.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\stream.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\traits.rs
+
+C:\Users\Lord\Documents\GitHub\EquityRust\wallet_cracker\target\debug\deps\librlp-339b3b6f51d87303.rlib: C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\lib.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\error.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\impls.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\rlpin.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\stream.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\traits.rs
+
+C:\Users\Lord\Documents\GitHub\EquityRust\wallet_cracker\target\debug\deps\rlp-339b3b6f51d87303.d: C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\lib.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\error.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\impls.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\rlpin.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\stream.rs C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\traits.rs
+
+C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\lib.rs:
+C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\error.rs:
+C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\impls.rs:
+C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\rlpin.rs:
+C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\stream.rs:
+C:\Users\Lord\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rlp-0.5.2\src\traits.rs:
