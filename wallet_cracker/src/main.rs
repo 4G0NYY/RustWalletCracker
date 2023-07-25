@@ -1,21 +1,37 @@
 use rand::Rng;
 use reqwest::StatusCode;
 use rusqlite::{params, Connection, Result as SqliteResult};
+use std::io::{Write};
+use std::thread;
+use std::time::{Instant};
 use std::fs::File;
-use std::io::{self, Write};
-use reqwest::blocking::Client;
+use std::io::{self, BufRead, BufReader};
 
-const NUM_PRIVATE_KEYS: usize = 10;
+const NUM_THREADS: usize = 10;
+const NUM_PRIVATE_KEYS: usize = 1000;
 
-fn main() {
+fn getrpc() {
+    let rpc_file = File::open("api.txt").expect("Failed to open the file");
+    let rpc_reader = BufReader::new(rpc_file);
+
+    let mut rpc = vec![];
+
+    for line in rpc_reader.lines() {
+        if let Ok(value) = line {
+            if let Ok(num) = value.trim().parse::<u32>() {
+                rpc.push(num);
+            }
+        }
+    }
+}
+
+fn miner(_api: &str) {
     let rpc = vec![ 
-        "https://blue-omniscient-liquid.discover.quiknode.pro/0ddba96281a6f3f0c499c936a2fbf6d854a2afc7/",
-        "https://ancient-black-lambo.discover.quiknode.pro/70bd95a582d1ee953518d8e12fa98453919220ca/",
-        "https://wandering-omniscient-mansion.discover.quiknode.pro/401aaf72015fda6d1645c0ac6a2353a28d1363d0/"
+
     ];
 
     let mut rng = rand::thread_rng();
-    let mut db_conn = init_database().expect("Failed to initialize database.");
+//    let mut db_conn = init_database().expect("Failed to initialize database.");
 
     for _ in 0..NUM_PRIVATE_KEYS {
         let private_key = generate_ethereum_private_key(&mut rng);
@@ -24,16 +40,16 @@ fn main() {
         if has_transactions {
             write_to_file("hits.txt", &private_key);
         } else {
-            insert_to_database(&mut db_conn, &private_key);
+//            insert_to_database(&mut db_conn, &private_key);
         }
     }
 }
 
-fn generate_ethereum_private_key<R: Rng>(rng: &mut R) -> String {
-    let private_key: String = (0..64)
-        .map(|_| rng.gen_range(0..=15))
-        .map(|n| format!("{:x}", n))
-        .collect();
+fn generate_ethereum_private_key(rng: &mut impl Rng) -> String {
+    let mut private_key = String::new();
+    for _ in 0..64 {
+        private_key.push(rng.gen_range('0'..='9'));
+    }
     private_key
 }
 
@@ -71,6 +87,7 @@ fn init_database() -> SqliteResult<Connection> {
         params![],
     )?;
     Ok(conn)
+//    let conn = Connection::close("ethereum_keys.db")?;
 }
 
 fn insert_to_database(conn: &mut Connection, private_key: &str) {
@@ -79,4 +96,76 @@ fn insert_to_database(conn: &mut Connection, private_key: &str) {
         params![private_key],
     )
     .expect("Failed to insert into the database.");
+}
+
+fn main() {
+    println!("How many threads do you want to use (1 to 100)?");
+
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read input");
+
+    let num_threads: u32 = match input.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Invalid input. Please enter a number between 1 and 100.");
+            return;
+        }
+    };
+
+    if num_threads < 1 || num_threads > 100 {
+        println!("Invalid input. Please enter a number between 1 and 100.");
+        return;
+    }
+
+    let _iteration = 0;
+    let _start_time = Instant::now();
+
+    let apis_file = File::open("api.txt").expect("Failed to open the file");
+    let apis_reader = BufReader::new(apis_file);
+
+    let mut apis = Vec::new();
+
+    for line in apis_reader.lines() {
+        if let Ok(api) = line {
+            apis.push(api);
+        }
+    }
+
+    if apis.is_empty() {
+        println!("No APIs found in the file.");
+        return;
+    }
+
+    let mut iteration = 0;
+    let start_time = Instant::now();
+    let num_apis = apis.len();
+    let mut api_index = 0;
+
+    loop {
+        let current_api = &apis[api_index];
+
+        let mut handles = vec![];
+
+        for _ in 0..num_threads {
+            let current_api_clone = current_api.to_string();
+            let handle = thread::spawn(move || miner(&current_api_clone));
+            handles.push(handle);
+        }
+
+        for handle in handles {
+            handle.join().unwrap();
+        }
+
+        api_index = (api_index + 1) % num_apis;
+        iteration += 1;
+        let elapsed_time = start_time.elapsed().as_secs_f64();
+        let iterations_per_second = iteration as f64 / elapsed_time;
+
+        print!(
+            "\rChecks: {}, API: {}, Checks per second: {:.2}",
+            iteration, current_api, iterations_per_second
+        );
+
+        io::stdout().flush().unwrap();
+    }
 }

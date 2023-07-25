@@ -1,0 +1,3 @@
+cargo:rerun-if-changed=build/main.rs
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=C:\Users\Lord\Documents\GitHub\EquityRust\wallet_cracker\target\x86_64-pc-windows-msvc\release\build\typenum-194d922f38434a15\out\consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=C:\Users\Lord\Documents\GitHub\EquityRust\wallet_cracker\target\x86_64-pc-windows-msvc\release\build\typenum-194d922f38434a15\out\op.rs
