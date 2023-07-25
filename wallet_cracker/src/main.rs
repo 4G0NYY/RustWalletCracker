@@ -2,10 +2,13 @@ use rand::Rng;
 use reqwest::StatusCode;
 use rusqlite::{params, Connection, Result as SqliteResult};
 use std::io::{Write};
+use std::time::Duration;
 use std::thread;
 use std::time::{Instant};
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
+use sysinfo::{ProcessExt, System, SystemExt};
+use crossbeam_channel::{bounded, select, tick, Receiver};
 
 const NUM_THREADS: usize = 10;
 const NUM_PRIVATE_KEYS: usize = 1000;
@@ -98,6 +101,41 @@ fn insert_to_database(conn: &mut Connection, private_key: &str) {
     .expect("Failed to insert into the database.");
 }
 
+//fn cpu() {
+//    let (sender, receiver) = bounded(1);
+//
+//    thread::spawn(move || {
+//        loop {
+//            let system = System::new_all();
+//            let processor = system.get_processors()[0];
+//            let cpu_usage = processor.get_cpu_usage();
+//
+//            sender.send(cpu_usage).unwrap();
+//
+//            thread::sleep(Duration::from_secs(1));
+//        }
+//    });
+//
+//    loop {
+//        display_cpu_workload(&receiver);
+//
+//        select! {
+//            recv(tick(Duration::from_secs(1))) -> _ => {}
+//            recv(receiver) -> _ => {}
+//        }
+//    }
+//}
+
+//fn display_cpu_workload(receiver: &Receiver<f32>) {
+//    print!("\x1B[2J\x1B[1;1H");
+//
+//    if let Ok(cpu_usage) = receiver.try_recv() {
+//        println!("CPU Workload: {:.2}%", cpu_usage * 100.0);
+//    } else {
+//        println!("No CPU data available.");
+//    }
+//}
+
 fn main() {
     println!("How many threads do you want to use (1 to 100)?");
 
@@ -162,8 +200,8 @@ fn main() {
         let iterations_per_second = iteration as f64 / elapsed_time;
 
         print!(
-            "\rChecks: {}, API: {}, Checks per second: {:.2}",
-            iteration, current_api, iterations_per_second
+            "\rChecks: {}, API: {}, Checks per second: {:.2}", // <-- remove the " and the , if you get this cpu load shit to work CPU Load: {}",
+            iteration, current_api, iterations_per_second//, display_cpu_workload
         );
 
         io::stdout().flush().unwrap();
